@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { useNavigate } from "react-router-dom";
 
 const MainContent = styled.div`
   flex-grow: 1;
@@ -93,6 +94,7 @@ const CustomCarousel = styled(Carousel)`
 export default function Home() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [currentComponent, setCurrentComponent] = useState(null);
+  const navigate = useNavigate();
 
   const handleAccess = (_, component) => {
     setCurrentComponent(component);
@@ -123,37 +125,37 @@ export default function Home() {
           >
             <CarouselItem>
               <h2>QR Code Generator</h2>
-              <button onClick={() => handleAccess(0, "QRCodeGenerator")}>
+              <button onClick={() => navigate("/QRCode")}>
                 Acessar
               </button>
             </CarouselItem>
             <CarouselItem>
               <h2>IP Address Finder</h2>
-              <button onClick={() => handleAccess(1, "IPAddressFinder")}>
+              <button onClick={() => navigate("/IPAddressFinder")}>
                 Acessar
               </button>
             </CarouselItem>
             <CarouselItem>
               <h2>Movie Search Engine</h2>
-              <button onClick={() => handleAccess(2, "MovieSearchEngine")}>
+              <button onClick={() => navigate("/MovieSearch")}>
                 Acessar
               </button>
             </CarouselItem>
             <CarouselItem>
               <h2>Todo App</h2>
-              <button onClick={() => handleAccess(3, "TodoApp")}>
+              <button onClick={() => navigate("/TodoApp")}>
                 Acessar
               </button>
             </CarouselItem>
             <CarouselItem>
               <h2>Quiz App</h2>
-              <button onClick={() => handleAccess(4, "QuizApp")}>
+              <button onClick={() => navigate("/QuizApp")}>
                 Acessar
               </button>
             </CarouselItem>
             <CarouselItem>
               <h2>Language Translator</h2>
-              <button onClick={() => handleAccess(5, "LanguageTranslator")}>
+              <button onClick={() => navigate("/LanguageTranslator")}>
                 Acessar
               </button>
             </CarouselItem>

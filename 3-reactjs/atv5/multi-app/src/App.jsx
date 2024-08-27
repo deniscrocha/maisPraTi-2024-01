@@ -59,9 +59,9 @@ const App = () => {
   const handleAuth = () => {
     setIsAuthenticated(isAuthenticated ? false : true);
   };
-  useEffect(()=>{
-    isAuthenticated ? navigate("/") : navigate("/Login"); 
-  }, [isAuthenticated])
+  useEffect(() => {
+    isAuthenticated ? navigate("/") : navigate("/Login");
+  }, [isAuthenticated]);
   return (
     <isAuthenticate.Provider value={{ isAuthenticated, handleAuth }}>
       <AppContainer>
@@ -115,7 +115,15 @@ const App = () => {
               </Auth>
             }
           />
-          <Route path="/Login" Component={Login} />
+          <Route
+            path="/MovieSearch"
+            element={
+              <Auth>
+                <MovieSearchEngine />
+              </Auth>
+            }
+          />
+          <Route path="/Login" element={<Login />} />
         </Routes>
         {isAuthenticated ? <Footer /> : ""}
       </AppContainer>

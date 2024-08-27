@@ -7,9 +7,9 @@ import {
   FaRegQuestionCircle,
   FaGlobeAmericas,
   FaNetworkWired,
-  FaBars,
-  FaArrowLeft,
 } from "react-icons/fa";
+import { useContext } from "react";
+import isAuthenticate from "../../contexts/isAuthenticate";
 
 const NavBar = styled.div`
   width: 240px;
@@ -47,37 +47,38 @@ const StyledLink = styled(Link)`
 `;
 export default function VerticalBar() {
   const navigate = useNavigate();
+  const auth = useContext(isAuthenticate);
   const handleLogout = () => {
     navigate("/");
   };
   return (
     <NavBar isOpen={true}>
-      <StyledLink onClick={() => handleAccess(0, "QRCodeGenerator")}>
+      <StyledLink onClick={() => navigate("/QRCode")}>
         <FaQrcode />
         QR Code Generator
       </StyledLink>
-      <StyledLink onClick={() => handleAccess(1, "IPAddressFinder")}>
+      <StyledLink onClick={() => navigate("/IPAddressFinder")}>
         <FaNetworkWired />
         IP Address Finder
       </StyledLink>
-      <StyledLink onClick={() => handleAccess(2, "MovieSearchEngine")}>
+      <StyledLink onClick={() => navigate("/MovieSearch")}>
         <FaSearch />
         Movie Search
       </StyledLink>
-      <StyledLink onClick={() => handleAccess(3, "TodoApp")}>
+      <StyledLink onClick={() => navigate("/TodoApp")}>
         <FaTasks />
         Todo App
       </StyledLink>
-      <StyledLink onClick={() => handleAccess(4, "QuizApp")}>
+      <StyledLink onClick={() => navigate("/QuizApp")}>
         <FaRegQuestionCircle />
         Quiz App
       </StyledLink>
-      <StyledLink onClick={() => handleAccess(5, "LanguageTranslator")}>
+      <StyledLink onClick={() => navigate("/LanguageTranslator")}>
         <FaGlobeAmericas />
         Translator
       </StyledLink>
       <button
-        onClick={handleLogout}
+        onClick={() => auth.handleAuth()}
         style={{
           marginTop: "20px",
           color: "white",
