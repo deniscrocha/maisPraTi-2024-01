@@ -1,7 +1,8 @@
-import { useState } from 'react'; // Importa o hook useState do React
+import { useContext, useState } from 'react'; // Importa o hook useState do React
 import styled from 'styled-components'; // Importa styled-components para estilizar os componentes
+import isAuthenticate from '../../contexts/isAuthenticate';
+import { useNavigate } from 'react-router-dom';
 
-// Define o estilo do container principal do login
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,7 +12,6 @@ const LoginContainer = styled.div`
   background-color: #f0f0f0;
 `;
 
-// Define o estilo do formulário de login
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -22,7 +22,6 @@ const LoginForm = styled.form`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
-// Define o estilo do campo de entrada
 const Input = styled.input`
   margin-bottom: 10px;
   padding: 10px;
@@ -31,7 +30,6 @@ const Input = styled.input`
   width: 200px;
 `;
 
-// Define o estilo do botão
 const Button = styled.button`
   padding: 10px 20px;
   background-color: #007bff;
@@ -45,19 +43,18 @@ const Button = styled.button`
   }
 `;
 
-// Componente principal de Login
-// eslint-disable-next-line react/prop-types
-const Login = ({ onLogin }) => {
+const Login = () => {
   const [username, setUsername] = useState(''); // Define o estado para o nome de usuário
   const [password, setPassword] = useState(''); // Define o estado para a senha
+  const auth = useContext(isAuthenticate);
+  const navigate = useNavigate();
 
-  // Função para lidar com o envio do formulário
   const handleSubmit = (e) => {
-    e.preventDefault(); // Previne o comportamento padrão do formulário
+    e.preventDefault();
     if (username === 'admin' && password === 'password') {
-      onLogin(); // Chama a função onLogin passada como prop se as credenciais estiverem corretas
+      auth.handleAuth();
     } else {
-      alert('Invalid credentials'); // Exibe um alerta se as credenciais estiverem incorretas
+      alert('Invalid credentials');
     }
   };
 

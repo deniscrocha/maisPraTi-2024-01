@@ -62,7 +62,6 @@ const QRCodeGenerator = () => {
   // Usa o hook useState para criar uma variável de estado chamada 'text' e uma função para atualizá-la.
   // 'text' armazena o texto que será codificado no QR Code.
   const [text, setText] = useState('');
-
   // Retorna o JSX que define o layout e comportamento do componente.
   return (
     <Container>

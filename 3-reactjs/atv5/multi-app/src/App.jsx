@@ -1,24 +1,8 @@
 // Importa hooks e componentes do React e bibliotecas externas.
 import { useState, useEffect } from "react";
-import {
-  Route,
-  Routes,
-  Navigate,
-  useNavigate,
-  useLocation,
-  Link,
-} from "react-router-dom";
+import { Route, Routes, Router, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {
-  FaQrcode,
-  FaSearch,
-  FaTasks,
-  FaRegQuestionCircle,
-  FaGlobeAmericas,
-  FaNetworkWired,
-  FaBars,
-  FaArrowLeft,
-} from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import QRCodeGenerator from "./modules/qrCode/QRCodeGenarator";
 import IPAddressFinder from "./modules/ipAddress/IPAddressFinder";
 import MovieSearchEngine from "./modules/movieSearch/MovieSearchEngine";
@@ -31,6 +15,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Footer from "./modules/footer/Footer";
 import VerticalBar from "./modules/verticalBar/VerticalBar";
 import Home from "./modules/home/Home";
+import isAuthenticate from "./contexts/isAuthenticate";
+import Auth from "./modules/auth/Auth";
 
 const NavBarToggle = styled.div`
   display: none;
@@ -69,64 +55,71 @@ const App = () => {
   // Cria estados para autenticação, visibilidade da barra de navegação, componente atual, e índice do carrossel.
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isNavBarOpen, setIsNavBarOpen] = useState(false);
-  const navigate = useNavigate(); // Hook para navegação.
-
-  // Efeito colateral que redireciona para a página de login se não estiver autenticado.
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
-
-  // Função para simular login e redirecionar para o gerador de QR code.
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    navigate("/qrcode-generator");
+  const navigate = useNavigate();
+  const handleAuth = () => {
+    setIsAuthenticated(isAuthenticated ? false : true);
   };
-
-  // Alterna a visibilidade da barra de navegação.
-  const toggleNavBar = () => {
-    setIsNavBarOpen(!isNavBarOpen);
-  };
-
-  // Função para renderizar o componente atual com base no estado.
-  const renderComponent = () => {
-    switch (currentComponent) {
-      case "QRCodeGenerator":
-        return <QRCodeGenerator />;
-      case "IPAddressFinder":
-        return <IPAddressFinder />;
-      case "MovieSearchEngine":
-        return <MovieSearchEngine />;
-      case "TodoApp":
-        return <TodoApp />;
-      case "QuizApp":
-        return <QuizApp />;
-      case "LanguageTranslator":
-        return <LanguageTranslator />;
-      default:
-        return null;
-    }
-  };
-
-  // Renderiza o componente principal.
+  useEffect(()=>{
+    isAuthenticated ? navigate("/") : navigate("/Login"); 
+  }, [isAuthenticated])
   return (
-    <AppContainer>
-      <NavBarToggle onClick={toggleNavBar}>
-        <FaBars size={24} color="#2C3E50" />
-      </NavBarToggle>
-      {!isAuthenticated ? (
-        <MainContent>
-          <Login onLogin={handleLogin} />
-        </MainContent>
-      ) : (
-        <>
-          <VerticalBar />
-          <Home />
-          <Footer />
-        </>
-      )}
-    </AppContainer>
+    <isAuthenticate.Provider value={{ isAuthenticated, handleAuth }}>
+      <AppContainer>
+        {isAuthenticated ? <VerticalBar /> : ""}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Auth>
+                <Home />
+              </Auth>
+            }
+          />
+          <Route
+            path="/QRCode"
+            element={
+              <Auth>
+                <QRCodeGenerator />
+              </Auth>
+            }
+          />
+          <Route
+            path="/IPAddressFinder"
+            element={
+              <Auth>
+                <IPAddressFinder />
+              </Auth>
+            }
+          />
+          <Route
+            path="/TodoApp"
+            element={
+              <Auth>
+                <TodoApp />
+              </Auth>
+            }
+          />
+          <Route
+            path="/QuizApp"
+            element={
+              <Auth>
+                <QuizApp />
+              </Auth>
+            }
+          />
+          <Route
+            path="/LanguageTranslator"
+            element={
+              <Auth>
+                <LanguageTranslator />
+              </Auth>
+            }
+          />
+          <Route path="/Login" Component={Login} />
+        </Routes>
+        {isAuthenticated ? <Footer /> : ""}
+      </AppContainer>
+    </isAuthenticate.Provider>
   );
 };
 
