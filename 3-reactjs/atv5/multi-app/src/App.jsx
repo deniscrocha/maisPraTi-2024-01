@@ -17,6 +17,7 @@ import VerticalBar from "./modules/verticalBar/VerticalBar";
 import Home from "./modules/home/Home";
 import isAuthenticate from "./contexts/isAuthenticate";
 import Auth from "./modules/auth/Auth";
+import { isAuth } from "./services/AuthService";
 
 const NavBarToggle = styled.div`
   display: none;
@@ -53,7 +54,7 @@ const MainContent = styled.div`
 
 const App = () => {
   // Cria estados para autenticação, visibilidade da barra de navegação, componente atual, e índice do carrossel.
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(isAuth());
   const [isNavBarOpen, setIsNavBarOpen] = useState(false);
   const navigate = useNavigate();
   const handleAuth = () => {

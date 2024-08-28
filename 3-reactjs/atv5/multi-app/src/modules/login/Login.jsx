@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import isAuthenticate from '../../contexts/isAuthenticate';
+import { login } from '../../services/AuthService';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -50,7 +51,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'password') {
+    if (login(username, password)) {
       auth.handleAuth();
     } else {
       alert('Invalid credentials');

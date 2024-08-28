@@ -7,10 +7,11 @@ import {
   FaRegQuestionCircle,
   FaGlobeAmericas,
   FaNetworkWired,
-  FaBars
+  FaBars,
 } from "react-icons/fa";
 import { useContext, useState } from "react";
 import isAuthenticate from "../../contexts/isAuthenticate";
+import { logout } from "../../services/AuthService";
 
 const NavBar = styled.div`
   width: 240px;
@@ -40,7 +41,7 @@ const NavBarToggle = styled.div`
   right: 20px;
   cursor: pointer;
   z-index: 1000;
-  filter: invert(${({isOpen }) => (isOpen ? "100%" : "0%" )});
+  filter: invert(${({ isOpen }) => (isOpen ? "100%" : "0%")});
   @media (max-width: 768px) {
     display: block;
   }
@@ -64,9 +65,13 @@ const StyledLink = styled(Link)`
 export default function VerticalBar() {
   const auth = useContext(isAuthenticate);
   const [isOpen, setIsOpen] = useState(false);
-    const toggleNavBar = () =>{
-      setIsOpen(isOpen ? false : true);
-    }
+  const toggleNavBar = () => {
+    setIsOpen(isOpen ? false : true);
+  };
+  const handleLogout = () => {
+    auth.handleAuth();
+    logout();
+  };
   return (
     <>
       <NavBarToggle isOpen={isOpen} onClick={toggleNavBar}>
@@ -98,7 +103,7 @@ export default function VerticalBar() {
           Translator
         </StyledLink>
         <button
-          onClick={() => auth.handleAuth()}
+          onClick={handleLogout}
           style={{
             marginTop: "20px",
             color: "white",
