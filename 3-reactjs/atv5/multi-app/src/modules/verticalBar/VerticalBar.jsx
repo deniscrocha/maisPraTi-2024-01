@@ -7,8 +7,9 @@ import {
   FaRegQuestionCircle,
   FaGlobeAmericas,
   FaNetworkWired,
+  FaBars
 } from "react-icons/fa";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import isAuthenticate from "../../contexts/isAuthenticate";
 
 const NavBar = styled.div`
@@ -25,9 +26,23 @@ const NavBar = styled.div`
     width: 100%;
     height: auto;
     position: absolute;
+    z-index: 10;
     top: 0;
     left: 0;
     right: 0;
+    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+  }
+`;
+const NavBarToggle = styled.div`
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  filter: invert(${({isOpen }) => (isOpen ? "100%" : "0%" )});
+  @media (max-width: 768px) {
+    display: block;
   }
 `;
 const StyledLink = styled(Link)`
@@ -37,7 +52,9 @@ const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 
   &:hover {
     background-color: #34495e;
@@ -46,43 +63,52 @@ const StyledLink = styled(Link)`
 `;
 export default function VerticalBar() {
   const auth = useContext(isAuthenticate);
+  const [isOpen, setIsOpen] = useState(false);
+    const toggleNavBar = () =>{
+      setIsOpen(isOpen ? false : true);
+    }
   return (
-    <NavBar>
-      <StyledLink to="/QRCode">
-        <FaQrcode />
-        QR Code Generator
-      </StyledLink>
-      <StyledLink to="/IPAddressFinder">
-        <FaNetworkWired />
-        IP Address Finder
-      </StyledLink>
-      <StyledLink to="/MovieSearch">
-        <FaSearch />
-        Movie Search
-      </StyledLink>
-      <StyledLink to="/TodoApp">
-        <FaTasks />
-        Todo App
-      </StyledLink>
-      <StyledLink to="/QuizApp">
-        <FaRegQuestionCircle />
-        Quiz App
-      </StyledLink>
-      <StyledLink to="/LanguageTranslator">
-        <FaGlobeAmericas />
-        Translator
-      </StyledLink>
-      <button
-        onClick={() => auth.handleAuth()}
-        style={{
-          marginTop: "20px",
-          color: "white",
-          backgroundColor: "transparent",
-          border: "none",
-        }}
-      >
-        Logout
-      </button>
-    </NavBar>
+    <>
+      <NavBarToggle isOpen={isOpen} onClick={toggleNavBar}>
+        <FaBars size={24} color="#2C3E50" />
+      </NavBarToggle>
+      <NavBar isOpen={isOpen}>
+        <StyledLink to="/QRCode">
+          <FaQrcode />
+          QR Code Generator
+        </StyledLink>
+        <StyledLink to="/IPAddressFinder">
+          <FaNetworkWired />
+          IP Address Finder
+        </StyledLink>
+        <StyledLink to="/MovieSearch">
+          <FaSearch />
+          Movie Search
+        </StyledLink>
+        <StyledLink to="/TodoApp">
+          <FaTasks />
+          Todo App
+        </StyledLink>
+        <StyledLink to="/QuizApp">
+          <FaRegQuestionCircle />
+          Quiz App
+        </StyledLink>
+        <StyledLink to="/LanguageTranslator">
+          <FaGlobeAmericas />
+          Translator
+        </StyledLink>
+        <button
+          onClick={() => auth.handleAuth()}
+          style={{
+            marginTop: "20px",
+            color: "white",
+            backgroundColor: "transparent",
+            border: "none",
+          }}
+        >
+          Logout
+        </button>
+      </NavBar>
+    </>
   );
 }
