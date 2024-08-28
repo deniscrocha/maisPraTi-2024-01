@@ -62,6 +62,20 @@ const StyledLink = styled(Link)`
     color: #ecf0f1;
   }
 `;
+const LogoutButton = styled.button`
+  margintop: 20px;
+  color: white;
+  background: transparent;
+  border: none;
+  &:hover{
+    background: transparent;
+  }
+  @media (max-width: 768px) {
+    display: block;
+    width: 90%;
+  }
+`;
+
 export default function VerticalBar() {
   const auth = useContext(isAuthenticate);
   const [isOpen, setIsOpen] = useState(false);
@@ -102,17 +116,7 @@ export default function VerticalBar() {
           <FaGlobeAmericas />
           Translator
         </StyledLink>
-        <button
-          onClick={handleLogout}
-          style={{
-            marginTop: "20px",
-            color: "white",
-            backgroundColor: "transparent",
-            border: "none",
-          }}
-        >
-          Logout
-        </button>
+        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
       </NavBar>
     </>
   );
