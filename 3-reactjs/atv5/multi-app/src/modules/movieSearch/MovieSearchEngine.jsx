@@ -1,8 +1,7 @@
-import { useState } from 'react'; // Importa o hook useState do React
-import axios from 'axios'; // Importa a biblioteca axios para fazer requisições HTTP
-import styled from 'styled-components'; // Importa styled-components para estilizar os componentes
+import { useState } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 
-// Define o estilo do container principal
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,7 +14,6 @@ const Container = styled.div`
   margin: 50px auto;
 `;
 
-// Define o estilo do título
 const Title = styled.h2`
   color: #333;
   margin-bottom: 20px;
@@ -23,7 +21,6 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-// Define o estilo do campo de entrada
 const Input = styled.input`
   margin-bottom: 20px;
   padding: 12px;
@@ -40,7 +37,6 @@ const Input = styled.input`
   }
 `;
 
-// Define o estilo do botão
 const Button = styled.button`
   padding: 12px 20px;
   background-color: #007bff;
@@ -56,7 +52,6 @@ const Button = styled.button`
   }
 `;
 
-// Define o estilo do container dos filmes
 const MoviesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -67,7 +62,6 @@ const MoviesContainer = styled.div`
   width: 100%;
 `;
 
-// Define o estilo do cartão de filme
 const MovieCard = styled.div`
   background: #f9f9f9;
   border-radius: 10px;
@@ -101,18 +95,20 @@ const MovieCard = styled.div`
   }
 `;
 
-// Componente principal MovieSearchEngine
 const MovieSearchEngine = () => {
-  const [query, setQuery] = useState(''); // Define o estado para a consulta de busca
-  const [movies, setMovies] = useState([]); // Define o estado para armazenar os filmes
+  const [query, setQuery] = useState('');
+  const [movies, setMovies] = useState([]);
+  const [err, setErr] = useState(null);
 
-  // Função para buscar filmes
   const searchMovies = async () => {
     try {
-      const response = await axios.get(`http://www.omdbapi.com/?s=${query}&apikey=403abbfe`); // Faz uma requisição GET para a API OMDB
-      setMovies(response.data.Search); // Armazena os dados dos filmes no estado movies
+      const response = await axios.get(`http://www.omdbapi.com/?s=${query}&apikey=403abbfe`);
+      setMovies(response.data.Search);
+      setErr(null);
     } catch (error) {
-      console.error("Error fetching movie data:", error); // Exibe um erro no console em caso de falha
+      console.error("Error fetching movie data:", error);
+      setMovies([]);
+      setErr({msg:"Algum erro aconteceu na API, porfavor entrar em contato com o administrador."});
     }
   };
 
@@ -121,19 +117,20 @@ const MovieSearchEngine = () => {
       <Title>Movie Search Engine</Title>
       <Input
         type="text"
-        value={query} // Valor do campo de entrada é ligado ao estado query
-        onChange={(e) => setQuery(e.target.value)} // Atualiza o estado query conforme o usuário digita
-        placeholder="Search for a movie" // Placeholder do campo de entrada
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search for a movie"
       />
-      <Button onClick={searchMovies}>Search</Button> {/* Botão que chama a função searchMovies quando clicado */}
+      <Button onClick={searchMovies}>Search</Button>
       <MoviesContainer>
-        {movies && movies.map((movie) => ( // Verifica se há filmes e os mapeia para exibir MovieCard
+        {movies && movies.map((movie) => (
           <MovieCard key={movie.imdbID}>
-            <img src={movie.Poster} alt={`${movie.Title} Poster`} /> {/* Exibe o pôster do filme */}
-            <h3>{movie.Title}</h3> {/* Exibe o título do filme */}
-            <p>{movie.Year}</p> {/* Exibe o ano do filme */}
+            <img src={movie.Poster} alt={`${movie.Title} Poster`} />
+            <h3>{movie.Title}</h3>
+            <p>{movie.Year}</p>
           </MovieCard>
         ))}
+        {err && (<p><strong>{err.msg}</strong></p>)}
       </MoviesContainer>
     </Container>
   );

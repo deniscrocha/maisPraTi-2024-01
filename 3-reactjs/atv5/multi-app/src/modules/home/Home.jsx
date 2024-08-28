@@ -96,10 +96,6 @@ export default function Home() {
   const [currentComponent, setCurrentComponent] = useState(null);
   const navigate = useNavigate();
 
-  const handleAccess = (_, component) => {
-    setCurrentComponent(component);
-  };
-
   const handleReturn = () => {
     setCurrentComponent(null);
   };

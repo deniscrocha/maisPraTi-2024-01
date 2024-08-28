@@ -1,8 +1,7 @@
-import { useState } from 'react'; // Importa o hook useState do React
-import axios from 'axios'; // Importa a biblioteca axios para fazer requisições HTTP
-import styled from 'styled-components'; // Importa styled-components para estilizar os componentes
+import { useState } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 
-// Define o estilo do container principal
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +15,6 @@ const Container = styled.div`
   margin: 50px auto;
 `;
 
-// Define o estilo do título
 const Title = styled.h2`
   color: #333;
   margin-bottom: 20px;
@@ -24,14 +22,12 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-// Define o estilo do label
 const Label = styled.label`
   color: #555;
   font-size: 16px;
   margin-right: 10px;
 `;
 
-// Define o estilo do select
 const Select = styled.select`
   margin-bottom: 20px;
   padding: 10px;
@@ -46,7 +42,6 @@ const Select = styled.select`
   }
 `;
 
-// Define o estilo do campo de entrada
 const Input = styled.input`
   margin-bottom: 20px;
   padding: 12px;
@@ -63,7 +58,6 @@ const Input = styled.input`
   }
 `;
 
-// Define o estilo do botão
 const Button = styled.button`
   padding: 12px 20px;
   background-color: #007bff;
@@ -80,7 +74,6 @@ const Button = styled.button`
   }
 `;
 
-// Define o estilo do texto traduzido
 const TranslatedText = styled.p`
   color: #333;
   font-size: 18px;
@@ -92,25 +85,27 @@ const TranslatedText = styled.p`
   text-align: center;
 `;
 
-// Componente principal LanguageTranslator
 const LanguageTranslator = () => {
-  const [text, setText] = useState(''); // Define o estado para o texto a ser traduzido
-  const [translatedText, setTranslatedText] = useState(''); // Define o estado para o texto traduzido
-  const [sourceLang, setSourceLang] = useState('en'); // Define o estado para a língua de origem
-  const [targetLang, setTargetLang] = useState('es'); // Define o estado para a língua de destino
+  const [text, setText] = useState('');
+  const [err, setErr] = useState(null);
+  const [translatedText, setTranslatedText] = useState('');
+  const [sourceLang, setSourceLang] = useState('en');
+  const [targetLang, setTargetLang] = useState('es');
 
-  // Função para traduzir o texto
   const translateText = async () => {
     try {
       const response = await axios.get('https://api.mymemory.translated.net/get', {
         params: {
-          q: text, // Texto a ser traduzido
-          langpair: `${sourceLang}|${targetLang}`, // Par de línguas para tradução
+          q: text,
+          langpair: `${sourceLang}|${targetLang}`,
         },
       });
-      setTranslatedText(response.data.responseData.translatedText); // Armazena o texto traduzido no estado translatedText
+      setTranslatedText(response.data.responseData.translatedText);
+      setErr(null);
     } catch (error) {
-      console.error("Error translating text:", error); // Exibe um erro no console em caso de falha
+      console.error("Error translating text:", error);
+      setErr({msg: "Não foi possível conectar com API, porfavor entrar em contato com o administrador."})
+      
     }
   };
 
@@ -141,12 +136,13 @@ const LanguageTranslator = () => {
       </div>
       <Input
         type="text"
-        value={text} // Valor do campo de entrada é ligado ao estado text
-        onChange={(e) => setText(e.target.value)} // Atualiza o estado text conforme o usuário digita
-        placeholder="Enter text to translate" // Placeholder do campo de entrada
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Enter text to translate"
       />
-      <Button onClick={translateText}>Translate</Button> {/* Botão que chama a função translateText quando clicado */}
-      {translatedText && <TranslatedText>{translatedText}</TranslatedText>} {/* Condicional que exibe o texto traduzido se translatedText não for vazio */}
+      <Button onClick={translateText}>Translate</Button> 
+      {translatedText && <TranslatedText>{translatedText}</TranslatedText>}
+      {err && <TranslatedText>{err.msg}</TranslatedText>}
     </Container>
   );
 };

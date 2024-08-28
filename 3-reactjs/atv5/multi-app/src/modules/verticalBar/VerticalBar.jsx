@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
   FaQrcode,
@@ -28,7 +28,6 @@ const NavBar = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   }
 `;
 const StyledLink = styled(Link)`
@@ -46,34 +45,30 @@ const StyledLink = styled(Link)`
   }
 `;
 export default function VerticalBar() {
-  const navigate = useNavigate();
   const auth = useContext(isAuthenticate);
-  const handleLogout = () => {
-    navigate("/");
-  };
   return (
-    <NavBar isOpen={true}>
-      <StyledLink onClick={() => navigate("/QRCode")}>
+    <NavBar>
+      <StyledLink to="/QRCode">
         <FaQrcode />
         QR Code Generator
       </StyledLink>
-      <StyledLink onClick={() => navigate("/IPAddressFinder")}>
+      <StyledLink to="/IPAddressFinder">
         <FaNetworkWired />
         IP Address Finder
       </StyledLink>
-      <StyledLink onClick={() => navigate("/MovieSearch")}>
+      <StyledLink to="/MovieSearch">
         <FaSearch />
         Movie Search
       </StyledLink>
-      <StyledLink onClick={() => navigate("/TodoApp")}>
+      <StyledLink to="/TodoApp">
         <FaTasks />
         Todo App
       </StyledLink>
-      <StyledLink onClick={() => navigate("/QuizApp")}>
+      <StyledLink to="/QuizApp">
         <FaRegQuestionCircle />
         Quiz App
       </StyledLink>
-      <StyledLink onClick={() => navigate("/LanguageTranslator")}>
+      <StyledLink to="/LanguageTranslator">
         <FaGlobeAmericas />
         Translator
       </StyledLink>

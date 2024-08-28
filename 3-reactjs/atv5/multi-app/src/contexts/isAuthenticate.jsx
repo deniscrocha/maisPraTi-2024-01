@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 const isAuthenticate = createContext({
-  isAuthenticate: false,
-  setIsAuthenticate: () => {},
+  isAuthenticated: false,
+  handleAuth: () => {},
 });
 
 export default isAuthenticate;

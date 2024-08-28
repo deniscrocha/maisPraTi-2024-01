@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react'; // Importa o hook useState do React
-import styled from 'styled-components'; // Importa styled-components para estilizar os componentes
+import { useContext, useState } from 'react';
+import styled from 'styled-components';
 import isAuthenticate from '../../contexts/isAuthenticate';
-import { useNavigate } from 'react-router-dom';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -44,10 +43,9 @@ const Button = styled.button`
 `;
 
 const Login = () => {
-  const [username, setUsername] = useState(''); // Define o estado para o nome de usuário
-  const [password, setPassword] = useState(''); // Define o estado para a senha
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const auth = useContext(isAuthenticate);
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,17 +62,17 @@ const Login = () => {
         <h2>Login</h2>
         <Input
           type="text"
-          value={username} // Valor do campo de entrada é ligado ao estado username
-          onChange={(e) => setUsername(e.target.value)} // Atualiza o estado username conforme o usuário digita
-          placeholder="Username" // Placeholder do campo de entrada
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
         />
         <Input
           type="password"
-          value={password} // Valor do campo de entrada é ligado ao estado password
-          onChange={(e) => setPassword(e.target.value)} // Atualiza o estado password conforme o usuário digita
-          placeholder="Password" // Placeholder do campo de entrada
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
         />
-        <Button type="submit">Login</Button> {/* Botão que envia o formulário */}
+        <Button type="submit">Login</Button>
       </LoginForm>
     </LoginContainer>
   );
