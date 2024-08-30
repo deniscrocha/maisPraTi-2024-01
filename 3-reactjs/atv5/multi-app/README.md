@@ -27,6 +27,6 @@ Refatoração feita pelo aluno: Dênis Rocha.
 - QRCodeGenerator: Gerador de QRCode com qrcode.react.
 - IP Address Finder: Serviço de peomdbapisquisa de IP utilizando a API ipinfo.io e Axios.
 - Movie Search: Buscador de filme com a API Omdbapi e Axios.
-- Todo app: Todo com JSON server e Axios.
+- Todo app: ToDo com Local Storage.
 - Quiz app: Quiz simples.
 - Translator: Tradutor com a API api.mymemory e Axios.
